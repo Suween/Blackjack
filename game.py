@@ -1,4 +1,7 @@
-
+"""
+Author : Vincent Tanguay Casgrain
+Date: 2017-08-10
+"""
 import deck as d
 import player as p
 from cerberus import Validator
