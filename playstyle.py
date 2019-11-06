@@ -86,7 +86,7 @@ class Playstyle(object):
 		return True
 
 	def cardcount_logic(self,*arg):
-		print "cardcounting"
+		print ("cardcounting")
 
 	def dealer_logic(self,*arg):
 		self.stand_on = self.dealer_stand_on

@@ -18,7 +18,7 @@ class Player(Playstyle):
 		if name == []:# or stats == []:
 			# print "One of the necessary arg are empty: Class Player needs a name\n or theres no stats object"
 			raise Exception("One of the necessary arg are empty: Class Player needs a name\n \t\t or theres no stats object")
-			return 
+
 
 		schema = {'Player Type': {'allowed':self.__player_type}}#,'Stats obj': {'allowed':['stats']}}
 		v = Validator(schema)
@@ -28,7 +28,7 @@ class Player(Playstyle):
 
 		if not name:
 			print("Player needs a Name/Id")
-			return None
+			raise(TypeError)
 
 		if player_type == 'Dealer':
 			self.set_playstyle('Dealer')
@@ -126,12 +126,12 @@ class Player(Playstyle):
 					 #('Number of Cards', self.number_of_card),
 					])
 
-		for stats,number in stats_tab.items():
-			print '{0:17} ==> {1:>12}'.format(stats, number)
+		for stats, number in stats_tab.items():
+			print ("{0} ==> {1}".format(stats, number))
 
 		print("Cards:")
 		if not self.cards:
-			print "The %s has no card" % self.name
+			print ("The %s has no card" % self.name)
 
 		for card in self.cards:
 			card.show()
@@ -154,7 +154,7 @@ class Player(Playstyle):
 					])
 
 		for stats,number in stats_tab.items():
-			print '{0:17} ==> {1:>12}'.format(stats, number)
+			print ('{0:17} ==> {1:>12}'.format(stats, number))
 
 
 	def flush_hand(self):
@@ -177,14 +177,14 @@ if __name__ == '__main__':
 
 	stat = s.Stats(game)
 
-	player1 = Player(name="Roddrigo",player_type = "Dealer")#, stats = stat)
+	player1 = Player(name="Roddrigo",player_type = "Dealer")
 
 	player1.hit(deck)
 	
 	player1.play(deck)
 
 	player1.bet()
-	print player1.pbet
+	print (player1.pbet)
 	player1.show_stats()
 
 

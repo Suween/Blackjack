@@ -105,7 +105,7 @@ class Stats:
 			graph = ui.Graphs(label,points,names)
 			graph.start()
 		except ValueError:
-			print ValueError
+			raise(ValueError)
 
 	def slope(self,y2,y1):
 		 m = (y2-y1)

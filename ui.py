@@ -1,6 +1,6 @@
 # #!/usr/bin/python
 
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import multiprocessing as mp
 
 class Graphs(mp.Process):
@@ -39,4 +39,4 @@ if __name__ == '__main__':
 	while 0:
 		time.sleep(1)
 		i = i+1
-		print i
+		print (i)
