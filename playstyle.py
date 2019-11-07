@@ -38,7 +38,7 @@ class Playstyle(object):
 
 		self.playstyle = playstyle
 
-	def logic(self,*arg):
+	def logic(self, *arg):
 		return self.function_dict[self.playstyle](*arg)
 
 	def no_bust_logic(self,*arg):
@@ -53,7 +53,7 @@ class Playstyle(object):
 		else:
 			return True
 
-	def standard_logic(self,arg):
+	def standard_logic(self, arg):
 
 		dealer = next((x for x in arg if x.type == 'Dealer'), None)
 

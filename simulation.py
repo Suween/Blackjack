@@ -20,7 +20,7 @@ player1 = p.Player(player_type = "Gambler", name="Player One",playstyle='NoLogic
 player2 = p.Player(player_type = "Gambler", name="Player Two", playstyle='NoBust')
 player3 = p.Player(player_type = "Gambler", name="Player Three")
 
-print "Creating Game & players"
+print ("Creating Game & players")
 
 game.add_players(player1,player2,player3)
 
@@ -34,7 +34,8 @@ Game_played = 0
 # --> Pass 2 card to each Player #
 ##################################
 if __name__ == '__main__':
-	print "Simulation started"
+
+	print ("Simulation started")
 	for z in range(150):
 		Is_deck_empty = game.pass_cards(2)
 
@@ -42,11 +43,15 @@ if __name__ == '__main__':
 
 			game.place_bets()
 
-			game.play_round('Gambler',deck) #play_round() is where the player decide if he takes a card or not. He will follow the rules of the given "stand_on" parameter. By default, the player stand on 12 and the dealer on 17
+			# play_round() is where the player decide if he takes a card or not.
+			# He will follow the rules of the given "stand_on" parameter.
+			# By default, the player stand on 12 and the dealer on 17
+			game.play_round('Gambler', deck)
 
 			game.play_round('Dealer',deck)
 				
-			game.compare()	#compare() is where the player compare thier hands with the dealer's and check who won the hand.
+			#compare() is where the player compare thier hand with the dealer's and check who won the hand.
+			game.compare()
 
 			stats.update_stats()
 			
