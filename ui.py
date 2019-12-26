@@ -1,11 +1,11 @@
 # #!/usr/bin/python
 
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import multiprocessing as mp
 
 class Graphs(mp.Process):
 
-	def __init__(self,name,array,players_names):
+	def __init__(self, name, array, players_names):
 		mp.Process.__init__(self,target=self.graph, args=())
 		
 		self._stop_event = mp.Event()

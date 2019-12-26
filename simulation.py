@@ -9,10 +9,10 @@ import stats as s
 # --> start the game             #
 ##################################
 
-print "Creating Deck"
+print ("Creating Deck")
 deck = d.Deck()
 number_of_card = 3*52
-deck.initialize(number_of_card=3000,random_order=True)
+deck.initialize(number_of_card=300,random_order=True)
 
 game = g.Game(deck)
 
@@ -36,7 +36,7 @@ Game_played = 0
 if __name__ == '__main__':
 
 	print ("Simulation started")
-	for z in range(150):
+	for z in range(10):
 		Is_deck_empty = game.pass_cards(2)
 
 		if Is_deck_empty:
@@ -54,12 +54,9 @@ if __name__ == '__main__':
 			game.compare()
 
 			stats.update_stats()
-			
-			
-		# game.show_player_stats()
+
 		game.flush_hand()
 		game.give_stats_to_players(stats)
 
-	stats.show_all()
+	stats.show_all(['money', 'bust_slope'])
 
-	game.show_adv_player_stats()

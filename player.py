@@ -199,7 +199,7 @@ class Player(Playstyle):
 					])
 
 		for stats,number in stats_tab.items():
-			print ('{0:17} ==> {1:>12}'.format(stats, number))
+			print ('{0:17} ==> {1:12}'.format(stats, number))
 
 
 	def flush_hand(self):

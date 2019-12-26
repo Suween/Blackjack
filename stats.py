@@ -28,17 +28,19 @@ class Stats:
 			print(v.errors)
 			print("Allowed Type:" +' Game')
 
-		self.wins = np.empty([0,0])
-		self.money = np.empty([0,0])
-		self.busts = np.empty([0,0])
-		self.b_slope = np.empty([0,0])
-		self.bet_size = np.empty([0,0])
+		#naming convention for data is name_data
+		self.data_wins = np.empty([0, 0])
+		self.data_money = np.empty([0, 0])
+		self.data_bust = np.empty([0, 0])
+		self.data_bust_slope = np.empty([0, 0])
+		self.data_bet_size = np.empty([0, 0])
 
-		self.bust_slopes_buffer = []
-		self.wins_buffer = []
-		self.bust_buffer = []
-		self.money_buffer = []
-		self.bet_size_buffer =[]
+		#naming convention for history is name_buffer
+		self.buffer_bust_slope = []
+		self.buffer_wins = []
+		self.buffer_bust = []
+		self.buffer_money = []
+		self.buffer_bet_size =[]
 		
 		self.bjgame = game
 		self.numb_of_players = len(self.bjgame.players)
@@ -49,16 +51,19 @@ class Stats:
 	def update_stats(self):
 		"""
 		Scan all the player for thiers stats
-		:return: NA
+		it appends to a buffer so you can plot it in a graph
+		:return: a pointer to itself
 		"""
 
 		for players in self.bjgame.players:
-			self.wins_buffer.append(players.victory)
-			self.money_buffer.append(players.money)
-			self.bust_buffer.append(players.bust_count)
-			self.bet_size_buffer.append(players.pbet)
+			self.buffer_wins.append(players.victory)
+			self.buffer_money.append(players.money)
+			self.buffer_bust.append(players.bust_count)
+			self.buffer_bet_size.append(players.pbet)
 
-			self.differential(self.bust_buffer,self.bust_slopes_buffer,players.bust_count)
+			self.differential(self.buffer_bust, self.buffer_bust_slope, players.bust_count)
+
+		return self
 
 	def differential(self, data_buffer, data_slopes_buffer, player_var):
 		"""
@@ -80,7 +85,7 @@ class Stats:
 			data_slopes_buffer.append(self.slope(player_var, data_buffer[-(self.numb_of_players + 1)]))
 			
 
-	def give_stats_to_player(self,stat_type):
+	def give_stats_to_player(self, stat_type):
 		"""
 		Give desired stats to a player. The stat they want depends on which playstyle they have
 		TODO scrap this
@@ -95,7 +100,7 @@ class Stats:
 			raise Exception(v.errors,"Allowed Type:" + __stat_type + "for stat type")
 
 		if stat_type == "Bust_Slope":
-			return self.bust_slopes_buffer[-(self.numb_of_players)]
+			return self.buffer_bust_slope[-(self.numb_of_players)]
 
 		return 0
 
@@ -108,33 +113,57 @@ class Stats:
 		"""
 
 		array = np.asarray(buff)
-		return np.reshape(array, (len(buff)/self.numb_of_players, self.numb_of_players))
+		return np.reshape(array, (int(len(buff)/self.numb_of_players), self.numb_of_players))
 
-	def shape_for_all_graph(self):
+	def shape_for_all_graph(self, data_to_show_list):
 		"""
 		Calls the shape graph for the graphs that will be displayed
+		The object variables that are updated  must be properly formated or else he wont find them
 		:return: NA
 		"""
 
-		self.b_slope = self.shape_graph(self.bust_slopes_buffer, self.b_slope)
-		# self.busts = self.shape_graph(self.bust_buffer,self.busts)
-		# self.wins = self.shape_graph(self.wins_buffer,self.wins)
-		self.money = self.shape_graph(self.money_buffer, self.money)
-		# self.bet_size = self.shape_graph(self.bet_size_buffer,self.bet_size)
+		count  = 0
 
-	def show_all(self):
+		for key1 in self.__dict__.keys():
+			ksplit = key1.split('_', 1)
+
+			if "data" in ksplit:
+				# The whole data key
+				data_key = key1
+
+				# first index of the split is data, check for the name within the second index
+				name = ksplit[1]
+
+				# check if the value is actually requested
+				if name in data_to_show_list:
+					count += 1
+
+					for buffer_key in self.__dict__.keys():
+						if "buffer_" + name in buffer_key:
+							self.__dict__[data_key] = self.shape_graph(self.__dict__[buffer_key], self.__dict__[data_key])
+
+							# Break the second for loop for speed
+							break
+		print(count)
+
+
+	def show_all(self, data_to_show_list):
 		"""
 		Fonction to show all the graphs and all the stats
 		:return: NA
 		"""
 
-		self.shape_for_all_graph()
+		if not isinstance(data_to_show_list, list):
+			raise(TypeError("Data to show need to be in a list"))
+
+
+		self.shape_for_all_graph(data_to_show_list)
 		names = self.bjgame.get_players_names()
 
 		# self.show_data("wins",names,self.wins,self.wins_buffer)
 		# self.show_data("Busts",names,self.busts,self.bust_buffer)
-		self.show_data("Bust Slope",names, self.b_slope, self.bust_slopes_buffer)
-		self.show_data("Money", names, self.money, self.money_buffer)
+		self.show_data("Bust Slope", names, self.data_bust_slope, self.buffer_bust_slope)
+		self.show_data("Money", names, self.data_money, self.buffer_money)
 		# self.show_data("bet size",names,self.bet_size,self.bet_size_buffer)
 
 	def show_data(self, label, names, points, buff):

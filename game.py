@@ -26,12 +26,10 @@ class Game:
 		self.Default_dealer = []
 
 		if not deck:
-			print("Instanciation of a Game Class requiere a Deck Class")
-			raise(TypeError)
+			raise(TypeError("Instanciation of a Game Class requiere a Deck Class"))
 
 		if not isinstance(deck, d.Deck):
-			print("Function take Deck Class as Input. Empty deck for now.")
-			raise(TypeError)
+			raise(TypeError("Function take Deck Class as Input. Empty deck for now."))
 
 		else:
 			self.deck = deck
@@ -219,7 +217,7 @@ class Game:
 		"""
 
 		if not self.players:
-			Print("The Game has no Player!!")
+			print("The Game has no Player!!")
 			return False
 
 		for player in self.players:
