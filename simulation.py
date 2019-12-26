@@ -4,37 +4,37 @@ import deck as d
 import player as p
 import stats as s
 
-############ Intit ###############
-# --> Create Deck, Add players   #
-# --> start the game             #
-##################################
-
-print ("Creating Deck")
-deck = d.Deck()
-number_of_card = 3*52
-deck.initialize(number_of_card=300,random_order=True)
-
-game = g.Game(deck)
-
-player1 = p.Player(player_type = "Gambler", name="Player One",playstyle='NoLogic')
-player2 = p.Player(player_type = "Gambler", name="Player Two", playstyle='NoBust')
-player3 = p.Player(player_type = "Gambler", name="Player Three")
-
-print ("Creating Game & players")
-
-game.add_players(player1,player2,player3)
-
-stats = s.Stats(game)
-stats.slope_width = 15
-Is_deck_empty = False
-
-Game_played = 0
-
-############ Round ###############
-# --> Pass 2 card to each Player #
-##################################
 if __name__ == '__main__':
 
+	############ Intit ###############
+	# --> Create Deck, Add players   #
+	# --> start the game             #
+	##################################
+
+	print("Creating Deck")
+	deck = d.Deck()
+	number_of_card = 3 * 52
+	deck.initialize(number_of_card=300, random_order=True)
+
+	game = g.Game(deck)
+
+	player1 = p.Player(player_type="Gambler", name="Player One", playstyle='NoLogic')
+	player2 = p.Player(player_type="Gambler", name="Player Two", playstyle='NoBust')
+	player3 = p.Player(player_type="Gambler", name="Player Three")
+
+	print("Creating Game & players")
+
+	game.add_players(player1, player2, player3)
+
+	stats = s.Stats(game)
+	stats.slope_width = 15
+	Is_deck_empty = False
+
+	Game_played = 0
+
+	############ Round ###############
+	# --> Pass 2 card to each Player #
+	##################################
 	print ("Simulation started")
 	for z in range(10):
 		Is_deck_empty = game.pass_cards(2)
@@ -58,5 +58,5 @@ if __name__ == '__main__':
 		game.flush_hand()
 		game.give_stats_to_players(stats)
 
-	stats.show_all(['money', 'bust_slope'])
+	stats.show_all(['wins',"bust", 'money'])
 

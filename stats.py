@@ -7,7 +7,7 @@ from cerberus import Validator
 import math 
 
 class Stats:
-	__stat_type = ['Wins','Busts','Money','Bust_Slope','Bet_size']
+	__stat_type = ['wins','bust','money','bust_slope','bet_size']
 
 	def __init__(self, game):
 		"""
@@ -115,14 +115,24 @@ class Stats:
 		array = np.asarray(buff)
 		return np.reshape(array, (int(len(buff)/self.numb_of_players), self.numb_of_players))
 
-	def shape_for_all_graph(self, data_to_show_list):
+
+	def show_all(self, data_to_show_list = __stat_type):
 		"""
-		Calls the shape graph for the graphs that will be displayed
-		The object variables that are updated  must be properly formated or else he wont find them
-		:return: NA
+		Fonction to show all the graphs and all the stats
+		:return: return False if no data was requested
 		"""
 
-		count  = 0
+		if not isinstance(data_to_show_list, list):
+			raise(TypeError("Data to show need to be in a list"))
+
+		# Removing space and capital letters
+		try:
+			data_to_show_list = [x.lower().strip() for x in data_to_show_list]
+		except:
+			pass
+
+		count = 0
+		names = self.bjgame.get_players_names()
 
 		for key1 in self.__dict__.keys():
 			ksplit = key1.split('_', 1)
@@ -132,47 +142,35 @@ class Stats:
 				data_key = key1
 
 				# first index of the split is data, check for the name within the second index
-				name = ksplit[1]
+				key_name = ksplit[1]
 
 				# check if the value is actually requested
-				if name in data_to_show_list:
+				if key_name in data_to_show_list:
 					count += 1
 
 					for buffer_key in self.__dict__.keys():
-						if "buffer_" + name in buffer_key:
+						if "buffer_" + key_name in buffer_key:
+
 							self.__dict__[data_key] = self.shape_graph(self.__dict__[buffer_key], self.__dict__[data_key])
+							self.show_data(key_name, names, self.__dict__[data_key], self.__dict__[buffer_key])
 
 							# Break the second for loop for speed
 							break
-		print(count)
 
+		if count == 0:
+			print("Simulation did not request data or either the data name are wrong. Allowed data are:\n {0}". format(self.__stat_type))
+			return False
 
-	def show_all(self, data_to_show_list):
-		"""
-		Fonction to show all the graphs and all the stats
-		:return: NA
-		"""
-
-		if not isinstance(data_to_show_list, list):
-			raise(TypeError("Data to show need to be in a list"))
-
-
-		self.shape_for_all_graph(data_to_show_list)
-		names = self.bjgame.get_players_names()
-
-		# self.show_data("wins",names,self.wins,self.wins_buffer)
-		# self.show_data("Busts",names,self.busts,self.bust_buffer)
-		self.show_data("Bust Slope", names, self.data_bust_slope, self.buffer_bust_slope)
-		self.show_data("Money", names, self.data_money, self.buffer_money)
-		# self.show_data("bet size",names,self.bet_size,self.bet_size_buffer)
+		return True
 
 	def show_data(self, label, names, points, buff):
-		self.shape_graph(buff,points)
+		self.shape_graph(buff, points)
 		try :
-			graph = ui.Graphs(label,points,names)
+			graph = ui.Graphs(label, points,names)
 			graph.start()
+
 		except ValueError:
-			raise(ValueError)
+			raise(ValueError("something went wrong in graphs"))
 
 	def slope(self, y2, y1):
 		return (y2-y1)

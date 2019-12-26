@@ -64,7 +64,7 @@ class Playstyle(object):
 			return True
 			pass
 
-		if max(self.total) == 12 or min(self.total) ==12:
+		if max(self.total) == 12 or min(self.total) == 12:
 
 			if  6 >= dealer_reavealed_card >= 4: 
 

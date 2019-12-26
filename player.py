@@ -150,7 +150,7 @@ class Player(Playstyle):
 
 		# TODO other style, now its only nobust
 		if self.playstyle is "NoBust":
-			self.requested_stat = stat.give_stats_to_player("Bust_Slope")
+			self.requested_stat = stat.give_stats_to_player("bust_slope")
 
 	def show_stats(self):
 		"""
