@@ -5,15 +5,16 @@ import multiprocessing as mp
 
 class Graphs(mp.Process):
 
-	def __init__(self, name, array, players_names):
-		mp.Process.__init__(self,target=self.graph, args=())
-		
+	def __init__(self, name, array, players_names, queue):
+		super(Graphs, self).__init__()
+
+		self.queue = queue
 		self._stop_event = mp.Event()
-		self.name = name
+		self.names = name
 		self.array = array
 		self.players_names = players_names
 
-	def graph(self):
+	def run(self):
 		self.fig = plt.figure()
 		self.fig.canvas.mpl_connect('close_event',self.stop)
 		
@@ -23,7 +24,9 @@ class Graphs(mp.Process):
 		
 		plt.plot(self.array)
 		plt.legend(labels=self.players_names)
+		self.queue.put("Graph {0}'".format(self.names))
 		plt.show()
+
 
 	def stop(self,*evt):
 		self._stop_event.set()

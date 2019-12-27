@@ -4,7 +4,8 @@ import game as g
 import numpy as np
 import ui 
 from cerberus import Validator
-import math 
+import math
+from multiprocessing import Queue
 
 class Stats:
 	__stat_type = ['wins','bust','money','bust_slope','bet_size']
@@ -166,7 +167,8 @@ class Stats:
 	def show_data(self, label, names, points, buff):
 		self.shape_graph(buff, points)
 		try :
-			graph = ui.Graphs(label, points,names)
+			q = Queue()
+			graph = ui.Graphs(label, points, names, q)
 			graph.start()
 
 		except ValueError:

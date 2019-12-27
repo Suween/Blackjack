@@ -13,7 +13,7 @@ if __name__ == '__main__':
 	print("Creating Deck")
 	deck = d.Deck()
 	number_of_card = 3 * 52
-	deck.initialize(number_of_card=20000, random_order=True)
+	deck.initialize(number_of_card=2000, random_order=True)
 
 	game = g.Game(deck)
 
@@ -35,7 +35,7 @@ if __name__ == '__main__':
 	# --> Pass 2 card to each Player #
 	##################################
 	print ("Simulation started")
-	for z in range(1000):
+	for z in range(100):
 		Is_deck_empty = game.pass_cards(2)
 
 		if Is_deck_empty:
