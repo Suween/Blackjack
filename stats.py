@@ -149,7 +149,7 @@ class Stats:
 					count += 1
 
 					for buffer_key in self.__dict__.keys():
-						if "buffer_" + key_name in buffer_key:
+						if "buffer_" + key_name == buffer_key:
 
 							self.__dict__[data_key] = self.shape_graph(self.__dict__[buffer_key], self.__dict__[data_key])
 							self.show_data(key_name, names, self.__dict__[data_key], self.__dict__[buffer_key])

@@ -31,11 +31,11 @@ class Player(Playstyle):
 			raise Exception("One of the necessary arg are empty: Class Player needs a name\n \t\t or theres no "
 		                    "stats object")
 
-		schema = {'Player Type': {'allowed':self.__player_type}}#,'Stats obj': {'allowed':['stats']}}
+		schema = {'Player Type': {'allowed':self.__player_type}}
 		v = Validator(schema)
 
 		if not v.validate({'Player Type': [player_type]}):
-			raise Exception(v.errors,"Allowed Type:" +str(self.__player_type))
+			raise Exception(v.errors,"Allowed Type:" + str(self.__player_type))
 
 		if not name:
 			print("Player needs a Name/Id")
@@ -49,15 +49,17 @@ class Player(Playstyle):
 		#Player variables
 		self.name = name
 		self.type = player_type
-		self.number_of_card = 0
+
 		self.cards = []
 
 		self.victory = 0
 		self.loss = 0
 		self.requested_stat=0
 		self.money = 100
+
 		self.betting_size = 10
-		self.pbet = 0
+
+		self.stats = None
 
 		#special case with aces in the game of blackjack
 		self.has_aces = False
@@ -120,7 +122,7 @@ class Player(Playstyle):
 
 		# If you have aces, you actually have 2 possible value
 		if self.has_aces:
-			self.total = [local_total - self.number_of_aces*10 , local_total - self.number_of_aces*10 + 10]
+			self.total = [local_total - self.number_of_aces *10 , local_total - self.number_of_aces *10 + 10]
 
 		else:
 			self.total = [local_total]
@@ -133,24 +135,21 @@ class Player(Playstyle):
 		"""
 
 		if amount is 0:
-			self.money -=  self.betting_size * (self.requested_stat +1)
-			self.pbet = self.betting_size * (self.requested_stat +1)
+			self.money -=  self.betting_size * (self.requested_stat + 1)
+			self.pbet = self.betting_size * (self.requested_stat + 1)
 
 		else:
 			self.money - amount
 			self.pbet = amount
 
-	def request_game_stats(self, stat):
+	def request_game_stats(self, stats):
 		"""
 		According to the playstyle of the player, he will request the game object for a stats in order to ajdust
 		his betting.
 		:param stat: Game Stat object
 		:return:
 		"""
-
-		# TODO other style, now its only nobust
-		if self.playstyle is "NoBust":
-			self.requested_stat = stat.give_stats_to_player("bust_slope")
+		self.stats = stats
 
 	def show_stats(self):
 		"""

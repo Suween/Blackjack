@@ -4,6 +4,7 @@ Date: 2017-08-10
 """
 import deck as d
 import player as p
+import stats as s
 from cerberus import Validator
 
 class Game:
@@ -38,7 +39,9 @@ class Game:
 		self.Default_dealer = p.Player(player_type = "Dealer", name="The Dealer")
 		self.Default_dealer.stand_on = 17
 		self.players.append(self.Default_dealer)
-		self.game_count = 0 
+		self.game_count = 0
+
+		self.stats = None
 
 	def add_players(self, *players):
 		"""
@@ -57,6 +60,13 @@ class Game:
 				return None
 
 		return True
+
+	def add_stats_obj(self):
+		"""
+		Proper way to instanciate stats obj
+		:return: NA
+		"""
+		self.stats = s.Stats(self)
 
 	def get_players_names(self):
 		"""
