@@ -5,9 +5,10 @@ import multiprocessing as mp
 
 class Graphs(mp.Process):
 
-	def __init__(self, name, array, players_names, queue):
+	def __init__(self, name, array, players_names, queue, **kwargs):
 		super(Graphs, self).__init__()
 
+		self.kwargs = kwargs
 		self.queue = queue
 		self._stop_event = mp.Event()
 		self.names = name
@@ -16,17 +17,16 @@ class Graphs(mp.Process):
 
 	def run(self):
 		self.fig = plt.figure()
-		self.fig.canvas.mpl_connect('close_event',self.stop)
+		self.fig.canvas.mpl_connect('close_event', self.stop)
 		
-		plt.title(self.name +' over game played',loc='center')
+		plt.title(self.names +' over game played',loc='center')
 		plt.xlabel('# of Games Played')
-		plt.ylabel('number of ' + self.name)
+		plt.ylabel('number of ' + self.names)
 		
-		plt.plot(self.array)
+		plt.plot(self.array, **self.kwargs)
 		plt.legend(labels=self.players_names)
 		self.queue.put("Graph {0}'".format(self.names))
 		plt.show()
-
 
 	def stop(self,*evt):
 		self._stop_event.set()

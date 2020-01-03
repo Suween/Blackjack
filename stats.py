@@ -8,7 +8,7 @@ import math
 from multiprocessing import Queue
 
 class Stats:
-	__stat_type = ['wins','bust','money','bust_slope','bet_size']
+	__stat_type = ['wins','bust','money','bust_slope','bet_size','count']
 
 	def __init__(self, game):
 		"""
@@ -35,13 +35,15 @@ class Stats:
 		self.data_bust = np.empty([0, 0])
 		self.data_bust_slope = np.empty([0, 0])
 		self.data_bet_size = np.empty([0, 0])
+		self.data_count = np.empty([0, 0])
 
 		#naming convention for history is name_buffer
 		self.buffer_bust_slope = []
 		self.buffer_wins = []
 		self.buffer_bust = []
 		self.buffer_money = []
-		self.buffer_bet_size =[]
+		self.buffer_bet_size = []
+		self.buffer_count = []
 		
 		self.bjgame = game
 		self.numb_of_players = len(self.bjgame.players)
@@ -57,12 +59,15 @@ class Stats:
 		"""
 
 		for players in self.bjgame.players:
+
 			self.buffer_wins.append(players.victory)
 			self.buffer_money.append(players.money)
 			self.buffer_bust.append(players.bust_count)
 			self.buffer_bet_size.append(players.pbet)
 
 			self.differential(self.buffer_bust, self.buffer_bust_slope, players.bust_count)
+
+			self.buffer_count.append(self.bjgame.true_count)
 
 		return self
 
@@ -165,10 +170,9 @@ class Stats:
 		return True
 
 	def show_data(self, label, names, points, buff):
-		self.shape_graph(buff, points)
 		try :
 			q = Queue()
-			graph = ui.Graphs(label, points, names, q)
+			graph = ui.Graphs(label, points, names, q, linewidth=0.5)
 			graph.start()
 
 		except ValueError:

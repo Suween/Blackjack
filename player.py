@@ -35,11 +35,10 @@ class Player(Playstyle):
 		v = Validator(schema)
 
 		if not v.validate({'Player Type': [player_type]}):
-			raise Exception(v.errors,"Allowed Type:" + str(self.__player_type))
+			raise Exception(v.errors, "Allowed Type:" + str(self.__player_type))
 
 		if not name:
-			print("Player needs a Name/Id")
-			raise(TypeError)
+			raise(TypeError("Player needs a Name/Id"))
 
 		if player_type == 'Dealer':
 			self.set_playstyle('Dealer')
@@ -76,7 +75,7 @@ class Player(Playstyle):
 			print("Function take Deck Class as Input")
 			return None
 		try:
-			card = deck.deck.pop()
+			card = deck.deck_pop()
 		except IndexError:
 			print("Deck is empty!!!")
 			return None
@@ -91,6 +90,8 @@ class Player(Playstyle):
 		self.number_of_card += 1
 
 		self.calculate_total()
+
+		return card
 
 	def play(self, deck, *arg):
 		"""

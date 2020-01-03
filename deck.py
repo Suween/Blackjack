@@ -73,14 +73,14 @@ class Deck:
 	Deck Class
 	The deck is actually a deck of card.
 	Comes with the methods or action you can do on a deck like Shuffle
-
 	Takes no arguments
 	"""
 
 	def __init__(self):
 
-		self.deck_size = []
+		self._deck_size = 0
 		self.deck = []
+		self._num_card_remaning = 0
 
 	def initialize(self, number_of_card = 52, random_cards = False, random_order = False):
 		"""
@@ -93,7 +93,8 @@ class Deck:
 
 		#empty array of size of the deck
 		self.deck = [Card() for i in range(number_of_card)]
-		self.deck_size = number_of_card
+		self._deck_size = number_of_card
+		self._num_card_remaning = self._deck_size
 
 		count = 0
 		done = True
@@ -110,8 +111,8 @@ class Deck:
 				for color in ['D', 'C', 'H', 'S']:
 					for number in ['a','2','3','4','5','6','7','8','9','10','J','Q','K']:
 					
-						if count < self.deck_size:
-							self.deck[count].create_card(number,color)
+						if count < self._deck_size:
+							self.deck[count].create_card(number, color)
 						else:
 							done = False
 							break
@@ -127,7 +128,6 @@ class Deck:
 		Calls the card show function
 		:return:
 		"""
-
 		for card in self.deck:
 			card.show()
 
@@ -138,6 +138,13 @@ class Deck:
 		"""
 		for i in range(iteration):
 			random.shuffle(self.deck)
+
+	def deck_pop(self):
+		self._num_card_remaning -= 1
+		return self.deck.pop()
+
+	def cards_remaning(self):
+		return self._num_card_remaning
 
 if __name__ == '__main__':
 

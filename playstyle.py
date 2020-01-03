@@ -13,17 +13,13 @@ class Playstyle(object):
 		self.total = []
 		self.number_of_card = 0
 
-		self.standard_stand_on= 17
-		self.NoBust_Stand_on = 12
-		self.dealer_stand_on = 17
-
 		self.stand_on = 0
 
 		self.DEFAULT_SIZE = 10
 
 		self.has_busted = False
 		self.bust_count = 0
-		self.no_bust_upper_limit = self.dealer_stand_on
+
 		self.pbet = 0
 
 		self.standard_table_logic = []
@@ -55,12 +51,13 @@ class Playstyle(object):
 
 	def no_bust_logic(self, *arg):
 
-		self.stand_on = self.NoBust_Stand_on
+		self.stand_on = 12
+		DEALER_LIMIT = 17
 
-		if (21 >= min(self.total) >= self.no_bust_upper_limit) or (21 >= max(self.total) >= self.no_bust_upper_limit):
+		if (21 >= min(self.total) >= DEALER_LIMIT) or (21 >= max(self.total) >= DEALER_LIMIT):
 			return False
 
-		elif min(self.total) >= self.NoBust_Stand_on:
+		elif min(self.total) >= self.stand_on:
 			return False
 		else:
 			return True
@@ -89,6 +86,8 @@ class Playstyle(object):
 		elif action == 'd':
 			if self.number_of_card <= 2:
 				self.pbet += self.pbet
+		else:
+			raise(TypeError("Unknown value in standard logic table"))
 
 			return True
 
@@ -96,17 +95,18 @@ class Playstyle(object):
 		print ("cardcounting")
 
 	def dealer_logic(self, *arg):
-		self.stand_on = self.dealer_stand_on
+
+		self.stand_on = 17
 		
-		if (21 >= min(self.total) >= self.dealer_stand_on) or (21 >= max(self.total) >= self.dealer_stand_on):
+		if (21 >= min(self.total) >= self.stand_on) or (21 >= max(self.total) >= self.stand_on):
 
 			return False
 
-		elif not(min(self.total) > self.dealer_stand_on or max(self.total) > self.dealer_stand_on):
+		elif not(min(self.total) > self.stand_on or max(self.total) > self.stand_on):
 
 			return True
 
-		elif min(self.total) < self.dealer_stand_on and max(self.total) > 21:
+		elif min(self.total) < self.stand_on and max(self.total) > 21:
 			
 			return True
 

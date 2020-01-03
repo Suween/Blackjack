@@ -12,8 +12,8 @@ if __name__ == '__main__':
 
 	print("Creating Deck")
 	deck = d.Deck()
-	number_of_card = 3 * 52
-	deck.initialize(number_of_card=2000, random_order=True)
+	number_of_card = 50 * 52
+	deck.initialize(number_of_card=number_of_card, random_order=True)
 
 	game = g.Game(deck)
 
@@ -53,9 +53,12 @@ if __name__ == '__main__':
 			game.compare()
 
 			game.stats.update_stats()
+		else:
+			break
 
 		game.flush_hand()
-		game.give_stats_to_players(game.stats)
+		game.give_stats_to_players()
 
-	game.stats.show_all(['wins', "bet_size", 'money'])
+	# game.stats.show_all(['wins', "bet_size", 'money'])
+	game.stats.show_all(['count'])
 

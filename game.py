@@ -39,7 +39,10 @@ class Game:
 		self.Default_dealer = p.Player(player_type = "Dealer", name="The Dealer")
 		self.Default_dealer.stand_on = 17
 		self.players.append(self.Default_dealer)
+
 		self.game_count = 0
+		self.true_count = 0.0
+		self.decks_remaining = self.get_remaing_deck()
 
 		self.stats = None
 
@@ -79,6 +82,9 @@ class Game:
 			temp_players.append(player.name)
 
 		return temp_players
+
+	def get_remaing_deck(self):
+		return int(self.deck.cards_remaning() / 52)
 
 	def place_bets(self):
 		"""
@@ -183,11 +189,23 @@ class Game:
 		for i in range(number_of_cards):
 			for player in self.players:
 
-				player.hit(self.deck)
+				card = player.hit(self.deck)
+
+				try:
+					value = card.conversion()
+				except AttributeError:
+					return False
+
+				if value >= 10:
+					self.game_count -= 1
+				elif value > 6 or value > 10:
+					pass
+				else:
+					self.game_count += 1
 
 		return True
 	
-	def give_stats_to_players(self, stat):
+	def give_stats_to_players(self):
 		"""
 		TODO delete this function and pass the stats everyround
 		Every type of player requiered a stats for thier gamestyle.
@@ -196,15 +214,12 @@ class Game:
 		:return:  NA
 		"""
 
-		schema = {'Stats obj': {'allowed':['Stats']}}
-		v = Validator(schema)
-
-		if not v.validate({'Stats obj': [stat.__class__.__name__]}):
-			raise Exception(v.errors,"Allowed Type:" + stat.__class__.__name__)
+		if self.stats == None:
+			raise(ValueError("No stats object"))
 
 		#TODO just give evrything to everybody instead of specific
 		for player in self.players:
-			player.request_game_stats(stat)
+			player.request_game_stats(self.stats)
 		
 	def show_player_stats(self):
 		"""
@@ -244,6 +259,11 @@ class Game:
 
 		for player in self.players:
 			player.flush_hand()
+
+		self.decks_remaining = self.get_remaing_deck()
+
+		self.true_count = self.game_count / self.get_remaing_deck()
+		pass
 
 if __name__ == '__main__':
 
