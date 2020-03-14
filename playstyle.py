@@ -16,6 +16,7 @@ class Playstyle(object):
 		self.stand_on = 0
 
 		self.DEFAULT_SIZE = 10
+		self.betting_size = 10
 
 		self.has_busted = False
 		self.bust_count = 0
@@ -92,7 +93,11 @@ class Playstyle(object):
 			return True
 
 	def cardcount_logic(self,*arg):
-		print ("cardcounting")
+
+		logic = self.standard_logic()
+
+		if self.stats.buffer_count[-1] > 0:
+			self.pbet += self.pbet
 
 	def dealer_logic(self, *arg):
 

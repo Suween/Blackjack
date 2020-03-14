@@ -262,7 +262,7 @@ class Game:
 
 		self.decks_remaining = self.get_remaing_deck()
 
-		self.true_count = self.game_count / self.get_remaing_deck()
+		self.true_count = self.game_count / (self.get_remaing_deck()+1)
 		pass
 
 if __name__ == '__main__':

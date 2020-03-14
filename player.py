@@ -56,8 +56,6 @@ class Player(Playstyle):
 		self.requested_stat=0
 		self.money = 100
 
-		self.betting_size = 10
-
 		self.stats = None
 
 		#special case with aces in the game of blackjack

@@ -14,8 +14,8 @@ class Card:
 	@create_card to create a card
 	"""
 
-	__color_choice = ['D', 'C', 'H', 'S']
-	__number_choice = ['a','2','3','4','5','6','7','8','9','10','J','Q','K']
+	_COLOR_CHOICE = ['D', 'C', 'H', 'S']
+	_NUMBER_CHOICE = ['a', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
 
 	def __init__(self):
 
@@ -27,8 +27,8 @@ class Card:
 		Chose a random color and a random number from the color and number choices
 		"""
 		 
-		self.number = random.choice(self.__number_choice)
-		self.color = random.choice(self.__color_choice)
+		self.number = random.choice(self._NUMBER_CHOICE)
+		self.color = random.choice(self._COLOR_CHOICE)
 
 	def create_card(self, number, color):
 		"""
@@ -39,14 +39,14 @@ class Card:
 		"""
 
 		#Validating inputs
-		schema = {'color': {'allowed':self.__color_choice},
-				  'number':{'allowed':self.__number_choice}}
+		schema = {'color': {'allowed':self._COLOR_CHOICE},
+				  'number':{'allowed':self._NUMBER_CHOICE}}
 		v = Validator(schema)
 
 		if not v.validate({'color': [color],'number': [number]}):
 			print(v.errors)
-			print("Allowed Number:" + str(self.__number_choice))
-			print("Allowed Color:" + str(self.__color_choice))
+			print("Allowed Number:" + str(self._NUMBER_CHOICE))
+			print("Allowed Color:" + str(self._COLOR_CHOICE))
 			raise(ValueError)
 
 		self.number = number
@@ -149,8 +149,7 @@ class Deck:
 if __name__ == '__main__':
 
 	deck = Deck()
-	deck.initialize(number_of_card=52,random_order=True)#,random_cards = True)
-
+	deck.initialize(number_of_card=52,random_order=True)
 	deck.show_deck()
 
 
